@@ -1,0 +1,21 @@
+---
+title: "Neural Networks and their Applications"
+author: "Keane Flynn"
+date: "10/31/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libraries,include=FALSE,message=FALSE}
+library(dplyr)
+library(neuralnet)
+```
+
+# Neural Networks
+
+##  What are they
+Neural networks are a subset of machine learning that are an almagamation of modern computer science and psychology. The data processing and analysis is based on the same process that your brains neurons undergo to  process information. Your neurons need a certain amount of activation energy in order to fire and send its signal passed the neuron and onto the axon, an action known as action potential.
+## Why use them
