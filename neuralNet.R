@@ -4,7 +4,20 @@ library(neuralnet)
 library(stringr)
 library(LaplacesDemon)
 
-#data import and cleaning
+#test neural network on iris dataset
+head(iris)
+summary(iris$Species) #this is our output layer, or what we are predicting
+cleanedIris <- model.matrix(~ Sepal.Length + Sepal.Width + Petal.Length + Petal.Width + Species,data=iris)
+cleanedIris <- cleanedIris/max(cleanedIris)
+irisNN <- neuralnet(Speciesversicolor+Speciesvirginica~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,
+                    cleanedIris,
+                    hidden=3,
+                    learningrate=0.01,
+                    linear.output=F)
+plot(irisNN)
+
+
+#import NHSE data and cleaning
 df <- read.csv('/Users/keaneflynn/Downloads/R-Program/NRES_746/NeuralNetworks/nhseData.csv')
 df <- df[!duplicated(df[,c("Name", "Species")]),] 
 
@@ -37,38 +50,35 @@ df <- dplyr::rename(df, c(species = Species,
   select(species,sex,age_group,age,weight_lbs,custody_period) %>% 
   na.omit()
 
-#renumber data rows and remove erronious data
+#renumber data rows and remove erroneous data
 rownames(df) <- 1:nrow(df)
 df <- df[-c(2860,755,5856,4709,5189),] #removing some outliers that are annoying me
-df <- df %>% filter(custody_period <= 50)
+#df <- df %>% filter(custody_period <= 25) #change training dataset
 
+#formatting dataframe for neuralnet function
+formatted_df <- model.matrix(~ species + sex + age_group + age + weight_lbs + custody_period,data=df)
+maxVal <- max(formatted_df)
+formatted_df <- formatted_df/maxVal
 
 set.seed(70)
-sampleSize <- round(nrow(df)*0.8)
-rowIndex <- sample(seq(nrow(df)),size=sampleSize)
+sampleSize <- round(nrow(formatted_df)*0.8)
+rowIndex <- sample(seq(nrow(formatted_df)),size=sampleSize)
 
-training_data <- df[rowIndex,]
-testing_data <-  df[-rowIndex,]
-groundtruth_data <- testing_data$custody_period
-
-numeric_training_data <- model.matrix(~ species + sex + age_group + age + weight_lbs + custody_period, data = training_data)
-numeric_testing_data <- model.matrix(~ species + sex + age_group + age + weight_lbs + custody_period, data = testing_data)
+training_data <- formatted_df[rowIndex,]
+testing_data <-  formatted_df[-rowIndex,]
+groundtruth_data <- testing_data[,11]*maxVal
 
 #train and visualize neurons
 nn <- neuralnet(custody_period~speciesdog+speciesreptile+speciessmall_mammal+sexmale+sexunknown+age_groupjuvenile+age_groupsenior+age+weight_lbs,
-                test,
+                training_data,
                 hidden=c(5,2), learningrate=0.01,  
                 linear.output=T)
 plot(nn)
 
 #Predict new values
-computedNN <- compute(nn,test2)$net.result
-predicted_values <- computedNN*611
+computedNN <- compute(nn,testing_data)$net.result
+predicted_values <- computedNN*maxVal
 plot(groundtruth_data, predicted_values, col='red', pch=1, 
-     xlim = c(0,300), ylim = c(0,300), cex=0.75, 
+     xlim = c(0,30), ylim = c(0,30), cex=0.75, 
      ylab = "predicted days in shelter", xlab = "actual days in shelter")
 abline(a=0,b=1)
-
-testnnPred <- compute(nn,matrix(c(1,0,0,0,0,1,0,0.01,0.01),nrow=1))$net.result
-
-                      
