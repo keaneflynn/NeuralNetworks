@@ -161,6 +161,9 @@ While the iris dataset is painful to look at, it is very useful for generating a
 
 
 ## Let's play around with some different data
+
+![](media/Nevada-Humane-Society-Logo.png)
+
 Thanks to some friends that work over at the Nevada Humane Society, I was able to get my hands on their largescale dataset (n>10000) for animal adoptions. This provided a good opportunity to create a neural network to predict residency times for incoming animals to the shelter, useful for understanding resource allocation for shelter pets. So lets look at some data.
 
 ### Importing data
