@@ -1,14 +1,9 @@
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-setwd("~/.")
-```
-
 # Neural Network Introduction
 
 "A neural network is the second best way to solve any problem. The best way is to actually understand the problem." - *Unknown*
 
 ![*The above example shows a very simplistic convolutional neural network used to detect numbers from an image.  
-Sidenote: you can create CNNs in r, however they are not fun to make in r.*](media/neuralNet.gif){width=80%}
+Sidenote: you can create CNNs in r, however they are not fun to make in r.*](media/neuralNet.gif)
 
 ### What are they?
 A neural network is a parallel, distributed information processing structure consisting of processing elements (nodes) interconnected together with unidirectional signal channels. Each node has a single output connection which branches into as many collateral connections as desired. The node's output signal can be of any mathematical value (can later be converted to non-numerical values). All of the processing that goes on within each node must depend only upon the values of the received input signals arriving at the node via incoming connections and upon values stored in the node's local memory (Hecht-Nielsen 1992).
@@ -21,7 +16,7 @@ Neural networks are a subset of machine learning that are an amalgamation of mod
 - 1949: Donald Webb proposed that neural pathways become stronger with more frequent use
 - 1958: Frank Rosenblatt publishes a paper with the **Perceptron** concept as an answer for fly's fight or flight response to stimuli (this was a huge breakthrough)
 
-![*Basic principle of Perceptron model.*](media/perceptron.jpeg){width=40%}
+![*Basic principle of Perceptron model.*](media/perceptron.jpeg)
 
 - 1959: First application of neural networks from Stanford lab used to filter out noise in phone lines (still used to this day)
 - 1969: Start of the AI "dark ages" where the Perceptron idea was killed by MIT (wrongly) followed by the cold war which made people overly-terrified of technology
@@ -31,10 +26,10 @@ Neural networks are a subset of machine learning that are an amalgamation of mod
 ### What led to the development and use of them?
 Originally, scientists were simply interested if they could recreate how the human brain works; they really didn't have any desire to make this concept much more than a concept. After WWII and Alan Turing's creation of what would become the modern day computer, scientists that were able to get their hands on this technology could turn it loose on whatever they could imagine including early neural networks. For the next few decades, the theory of artificial intelligence and neural networks developed faster than technology could to support it until modern computer processors and parallel computing caught up with the all of the theory (Moore's law). Now the opposite seems to be true and computing power is allowing for a lot more applications of neural networks and the sky is the limit for real-world applications.
 
-![](media/pastry.png){width=60%}
+![](media/pastry.png)
 
 # Components and applications
-![](media/meme.png){width=60%}
+![](media/meme.png)
 
 Neural networks are currently the fastest growing research topic (Google scholar) as well as one of the most well-funded research areas. Most of *Nature's* most cited papers are based on neural network research (Lek et al. 2016). They are capable of filling in analytical gaps where other statistical methods simply fall short. While they process information the same way our brains do, they are capable of finding patters that we simply are not capable of. 
 
@@ -46,7 +41,7 @@ Neural networks are currently the fastest growing research topic (Google scholar
 ### Components and function of neural networks
 Neural networks vary A LOT in structure, but most of them have relatively similar components and building blocks.
 
-![*Structure of a simple deep learning model*](media/neuralNetDiagram.png){width=70%}
+![*Structure of a simple deep learning model*](media/neuralNetDiagram.png)
 
 #### Nodes
 A node is simply a container for a value with one or more weighted input connections, with the exception of the input layer which has yet to be passed beyond the first input layer.
@@ -148,7 +143,7 @@ plot(irisNN)
 
 While the iris dataset is painful to look at, it is very useful for generating a strong correlation and creating a simple, interpretable model. For now, lets not worry about the forward pass portion. So let's walk through this a bit.
 
-![*Formula for the basic perceptron model*](media/perceptronModel.png){width=60%}
+![*Formula for the basic perceptron model*](media/perceptronModel.png)
 
 
 ## Let's play around with some different data
