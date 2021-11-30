@@ -262,7 +262,7 @@ plot(groundtruth_data, predicted_values, col='red', pch=1,
      ylab = "predicted days in shelter", xlab = "actual days in shelter",
      main = "NHSE Custody Period Prediction")
 abline(a=0,b=1) #This b=1 line shows what the data would look like in an idea scenario
-sum((groundtruth_data - predicted_values)^2)/length(groundtruth_data)
+sum((groundtruth_data - predicted_values)^2)/length(groundtruth_data) #Sum of squared errors normalized by length of the dataset
 ```
 So this doesn't look terrible, but what looks wrong here? (hint: think back to one of the few "assumptions" of neural network training)
 
@@ -322,26 +322,58 @@ plot(groundtruth_data, predicted_values, col='red', pch=1,
      ylab = "predicted days in shelter", xlab = "actual days in shelter",
      main = "NHSE Custody Period Prediction")
 abline(a=0,b=1) #This b=1 line shows what the data would look like in an idea scenario
-sum((groundtruth_data - predicted_values)^2)/length(groundtruth_data) #arbitrary calculation for difference between actual and predicted value
+sum((groundtruth_data - predicted_values)^2)/length(groundtruth_data) #Sum of squared errors normalized by length of the dataset
 ```
 
 This numerical value shows just about an order of magnitude improvement from our last model fitting the data. The visuals of this graph are much better, but we can still see there is a cap on prediction value. We can still see that there is a much higher density of data on the lower end of the days in shelter values. 
 
 So what can we do to resolve this?
 
-Instead of chopping data on the tail end like we did, we can thin the data across the range of the training dataset to better acheive this uniform distribution. 
+Instead of chopping data on the tail end like we did, we can thin the data across the range of the training dataset to better achieve this uniform distribution. 
 
 This is also a very simple model, we could have included many more variables as inputs to improve model accuracy. For example, my dog would be predicted to be out of the shelter relatively quickly based on the model criteria, however the model didn't take into account he has a heart condition.
 
 Additionally, we could have included hidden layers with more dimensionality to try and find more subtle patterns in our data, but I don't think this would work that well without adding in additional input values (could potentially lead to overfitting).
 
+### Let's create a mock dataset for predicting some theoretical incoming pets
+Lets make a mockup of three animals: a 3 month old, male puppy roughly german shepherd sized, a 10 month old chinchilla with unknown sex, and a 1 year old female cat that weighs 8 lbs. Let's see what it says!
+```{r}
+speciesdog = c(1,0,0) 
+speciesreptile = c(0,0,0)
+speciessmall_mammal = c(0,1,0)
+sexmale = c(1,0,0)
+sexunknown = c(0,1,0)
+age_groupjuvenile = c(1,0,1)
+age_groupsenior = c(0,1,0)
+age = c(3,10,12)
+weight_lbs = c(15,1,8)
+testPred <- data.frame(speciesdog,speciesreptile,speciessmall_mammal,
+                       sexmale,sexunknown,age_groupjuvenile,age_groupsenior,
+                       age,weight_lbs)
+testPred <- testPred/maxVal
+head(testPred) 
+testRunNN <- round(compute(nn, testPred)$net.result * maxVal) #run the neural net prediction and rescaling it for usable results
+testRunNN
+```
+
+Here we see the prediction: the puppy would be in the shelter for 2 days, the chinchilla for 11, and the cat for 7 days. Based on casually looking through some of the training data this seems like a reasonable response.
+
+Success!
+
 # Cool applications in ecology
-Like I mentioned earlier, these models only get better the more data that is collected. As ecological research scales with modern remote sensing and large scale data collection, neural networks are going to become increasingly prevalent in both data collection as well as interpretation. 
+Like I mentioned earlier, these models only get better the more data that is collected. As ecological research scales with modern remote sensing and large scale data collection, neural networks are going to become increasingly relevant in both data collection as well as interpretation. 
 
 - Predicting trout spawning habitat (Lek et al. 1996)
 - Invertebrate speciation under magnification 
 - Processing trail camera data and population monitoring (Snapshot Serengeti ?)
 - Passively tracking migratory animals [Salmon migration tracking](https://github.com/keaneflynn/LOTIC)
+
+# Conclusions
+- Not implicitly statistics, but a very math dense process
+- Neural networks are a fast emerging field of environmental science
+- As data availability scales, they will become more prominent
+- Can be an incredibly effective real time tool given the correct hardware
+- Limitations in understanding correlations and mechanisms, especially on larger neural nets 
 
 ### Additional sources of information
 
